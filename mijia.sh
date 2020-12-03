@@ -64,12 +64,6 @@ parse_command_line_parameters() {
 		esac
 	done
 
-	if [ -z $SENSOR_NAME ]; then
-		echo "Sensor name is mandatory parameter."
-		print_usage
-		exit 2
-	fi
-
 	if [ -z $SENSOR_ADDRESS ]; then
 		echo "Sensor address is mandatory parameter."
 		print_usage
