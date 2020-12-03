@@ -1,21 +1,5 @@
 #!/bin/bash
-#
-# Simple script to report temperature, humidity and battery level of
-# Xiaomi Mijia Bluetooth Temperature and Humidity Sensor to MQTT.
-# Requires gatttool, mosquitto_pub, bc and xxd tools to be installed.
-#
-# On Ubuntu 18.04 the required packages can be installed with:
-# apt install xxd bc mosquitto-clients bluez
-#
-### Defaults
 
-BROKER_IP="127.0.0.1"
-MAXRETRY=6
-MQTT_TOPIC_PREFIX="homeauto/xiaomi"
-
-#######################################################################
-# No need to change things below this line.
-#######################################################################
 
 SENSOR_ADDRESS=""
 SENSOR_NAME=""
@@ -31,9 +15,7 @@ Mandatory arguments:
 
 Optional arguments:
 
--b  | --broker            MQTT broker address. Default $BROKER_IP.
 -r  | --retries           Number of max retry attempts. Default $MAXRETRY times.
--p  | --prefix            MQTT topic prefix. Default $MQTT_TOPIC_PREFIX.
 -d  | --debug             Enable debug printouts.
 -h  | --help
 "
@@ -62,16 +44,8 @@ parse_command_line_parameters() {
 			SENSOR_NAME="$2"
 			shift; shift
 			;;
-			-b|--broker)
-			BROKER_IP="$2"
-			shift; shift
-			;;
 			-r|--retries)
 			MAXRETRY="$2"
-			shift; shift
-			;;
-			-p|--prefix)
-			MQTT_TOPIC_PREFIX="$2"
 			shift; shift
 			;;
 			-d|--debug)
@@ -149,22 +123,21 @@ batt=$(echo "ibase=16; $battery" | bc)
 
 debug_print "Temperature: $temp, Humidity: $humid, Battery: $batt"
 
-MQTT_TOPIC="$MQTT_TOPIC_PREFIX/$SENSOR_NAME"
 
 # Do validity check and publish
 if [[ "$temp" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]
 then
-	mosquitto_pub -h $BROKER_IP -V mqttv311 -t "$MQTT_TOPIC/temperature" -m "$temp"
+echo    Temp:"$temp"
 fi
 
 if [[ "$humid" =~ ^[0-9]+(\.[0-9]+)?$ ]]
 then
-	mosquitto_pub -h $BROKER_IP -V mqttv311 -t "$MQTT_TOPIC/humidity" -m "$humid"
+echo    Humid:"$humid"
 fi
 
 if [[ "$batt" =~ ^[0-9]+(\.[0-9]+)?$ ]]
 then
-	mosquitto_pub -h $BROKER_IP -V mqttv311 -t "$MQTT_TOPIC/battery" -m "$batt"
+echo    Batt:"$batt"
 fi
 }
 
