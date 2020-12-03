@@ -26,3 +26,18 @@ Optional arguments:
 -d  | --debug             Enable debug printouts.
 -h  | --help
 ```
+## Find MJ_HT_V1
+```
+root@gen8:~/mijia# hcitool lescan
+LE Scan ...
+58:2D:34:3A:79:EB (unknown)
+58:2D:34:3A:79:EB MJ_HT_V1
+```
+# Example
+```
+root@gen8:~/mijia# ./mijia.sh -a 58:2D:34:34:41:18
+
+Temp:17.3
+Humid:54.0
+Batt:100
+```
