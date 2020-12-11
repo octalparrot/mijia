@@ -18,10 +18,10 @@ You could add it in cron to do this repeatedly.
 Mandatory arguments:
 
 -a  | --address           Bluetooth MAC address of sensor.
--n  | --name              Name of the sensor to use for MQTT.
 
 Optional arguments:
 
+-n  | --name              Name of the sensor to use.
 -r  | --retries           Number of max retry attempts. Default 6 times.
 -d  | --debug             Enable debug printouts.
 -h  | --help
